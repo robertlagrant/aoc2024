@@ -1,15 +1,15 @@
-from inputs import REAL_INPUTS as INPUT
+from inputs import REAL_INPUT as INPUT
 
 
-def part1(letters: list[str]):
-    x_coords = [(i, j) for j in range(len(letters)) for i in range(len(letters[j])) if letters[j][i] == "X"]
-
+def part1(haystack: list[str], needle: str):
     return sum(
-        all(letters[j + m*dj][i+ m*di] == expected_letter for m, expected_letter in enumerate("MAS", start=1))
-        for i, j in x_coords
+        all(haystack[j + m*dj][i+ m*di] == expected_letter for m, expected_letter in enumerate(needle[1:], start=1))
+        for j in range(len(haystack))
+        for i in range(len(haystack[j]))
         for di, dj in [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
-        if 0 <= i + 3 * di <= len(letters[j])-1
-        if 0 <= j + 3 * dj <= len(letters)-1
+        if haystack[j][i] == needle[0]
+        if 0 <= i + 3 * di < len(haystack[j])
+        if 0 <= j + 3 * dj < len(haystack)
     )
 
 
@@ -23,5 +23,5 @@ def part2(letters: list[str]):
     )
 
 
-print(f"Part 1: {part1(INPUT.split("\n"))}")
+print(f"Part 1: {part1(INPUT.split("\n"), "XMAS")}")
 print(f"Part 2: {part2(INPUT.split("\n"))}")
